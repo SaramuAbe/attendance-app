@@ -12,282 +12,276 @@
         rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-</head>
+    <span class="material-symbols-rounded">calendar_month</span> 出勤簿
+    </li>
+    <li class="nav-item" data-target="todo">
+        <span class="material-symbols-rounded">checklist</span> TODO
+    </li>
+    <li class="nav-item" data-target="timer">
+        <span class="material-symbols-rounded">timer</span> タイマー
+    </li>
+    </ul>
+    </nav>
 
-<body>
-    <div class="layout-container">
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <div class="brand">
-                <span>NORMA</span>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="top-bar">
+            <h2 id="page-title">ホーム</h2>
+            <div class="user-info" style="display: flex; align-items: center; gap: 1rem;">
+                <span id="current-date"></span>
+                <button id="login-btn" class="status-badge status-working" style="cursor: pointer; border: none;"
+                    onclick="login()">Googleでログイン</button>
+                <div id="user-profile" style="display: none; align-items: center; gap: 0.5rem;">
+                    <img id="user-avatar" src="" alt="" style="width: 32px; height: 32px; border-radius: 50%;">
+                    <span id="user-name" style="font-weight: 600;"></span>
+                    <button onclick="logout()"
+                        style="background: none; border: none; color: var(--text-secondary); cursor: pointer; text-decoration: underline; font-size: 0.8rem;">ログアウト</button>
+                </div>
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item active" data-target="home">
-                    <span class="material-symbols-rounded">home</span> ホーム
-                </li>
-                <li class="nav-item" data-target="history">
-                    <span class="material-symbols-rounded">calendar_month</span> 出勤簿
-                </li>
-                <li class="nav-item" data-target="todo">
-                    <span class="material-symbols-rounded">checklist</span> TODO
-                </li>
-                <li class="nav-item" data-target="timer">
-                    <span class="material-symbols-rounded">timer</span> タイマー
-                </li>
-            </ul>
-        </nav>
+        </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="top-bar">
-                <h2 id="page-title">ホーム</h2>
-                <div class="user-info">
-                    <span class="user-name">Student User</span>
-                </div>
-            </header>
-
-            <!-- View: Home (Time Card) -->
-            <section id="view-home" class="content-view active">
-                <div class="time-card-container">
-                    <div class="date-header">
-                        <span id="current-date">YYYY年MM月DD日 (曜)</span>
-                    </div>
-
-                    <div class="clock-display">
-                        <span id="current-time">00:00:00</span>
-                    </div>
-
-                    <div class="status-indicator">
-                        <span id="status-badge" class="status-badge status-offline">未登校</span>
-                    </div>
-
-                    <div class="buttons-grid">
-                        <button id="btn-clock-in" class="circle-btn btn-blue">
-                            <span class="btn-text">登校</span>
-                        </button>
-                        <button id="btn-clock-out" class="circle-btn btn-blue" disabled>
-                            <span class="btn-text">帰宅</span>
-                        </button>
-
-                        <button id="btn-break-start" class="circle-btn btn-red" disabled>
-                            <span class="btn-text">休憩入り</span>
-                        </button>
-                        <button id="btn-break-end" class="circle-btn btn-red" disabled>
-                            <span class="btn-text">休憩戻り</span>
-                        </button>
-                    </div>
+        <!-- View: Home (Time Card) -->
+        <section id="view-home" class="content-view active">
+            <div class="time-card-container">
+                <div class="date-header">
+                    <span id="current-date">YYYY年MM月DD日 (曜)</span>
                 </div>
 
-                <!-- Weekly Summary (Simplified) -->
-                <div class="home-summary">
-                    <h3>今週の概況</h3>
-                    <div class="summary-box">
-                        <div class="summary-item">
-                            <span class="label">合計在校時間</span>
-                            <span id="weekly-total" class="value">00h 00m</span>
+                <div class="clock-display">
+                    <span id="current-time">00:00:00</span>
+                </div>
+
+                <div class="status-indicator">
+                    <span id="status-badge" class="status-badge status-offline">未登校</span>
+                </div>
+
+                <div class="buttons-grid">
+                    <button id="btn-clock-in" class="circle-btn btn-blue">
+                        <span class="btn-text">登校</span>
+                    </button>
+                    <button id="btn-clock-out" class="circle-btn btn-blue" disabled>
+                        <span class="btn-text">帰宅</span>
+                    </button>
+
+                    <button id="btn-break-start" class="circle-btn btn-red" disabled>
+                        <span class="btn-text">休憩入り</span>
+                    </button>
+                    <button id="btn-break-end" class="circle-btn btn-red" disabled>
+                        <span class="btn-text">休憩戻り</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Weekly Summary (Simplified) -->
+            <div class="home-summary">
+                <h3>今週の概況</h3>
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <span class="label">合計在校時間</span>
+                        <span id="weekly-total" class="value">00h 00m</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar-bg">
+                            <div id="weekly-progress" class="progress-bar" style="width: 0%"></div>
                         </div>
-                        <div class="progress-container">
-                            <div class="progress-bar-bg">
-                                <div id="weekly-progress" class="progress-bar" style="width: 0%"></div>
-                            </div>
-                            <div class="progress-labels">
-                                <span>0h</span>
-                                <span>40h</span>
-                            </div>
+                        <div class="progress-labels">
+                            <span>0h</span>
+                            <span>40h</span>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- View: History (Weekly List + Drill Down) -->
-            <section id="view-history" class="content-view">
+        <!-- View: History (Weekly List + Drill Down) -->
+        <section id="view-history" class="content-view">
 
-                <!-- Subview: Weekly List -->
-                <div id="history-weekly-view">
-                    <div class="history-header">
-                        <h3>週次レポート</h3>
-                    </div>
-                    <div id="weekly-list-container" class="weekly-list">
-                        <!-- JS injects weekly cards here -->
-                    </div>
+            <!-- Subview: Weekly List -->
+            <div id="history-weekly-view">
+                <div class="history-header">
+                    <h3>週次レポート</h3>
                 </div>
-
-                <!-- Subview: Daily Detail (Table) -->
-                <div id="history-detail-view" style="display: none;">
-                    <div class="detail-header">
-                        <button id="btn-back-history" class="btn-text-icon">← 一覧に戻る</button>
-                        <h3 id="detail-week-label">YYYY年MM月DD日の週</h3>
-                    </div>
-                    <div class="table-wrapper">
-                        <table class="attendance-table">
-                            <thead>
-                                <tr>
-                                    <th>日付</th>
-                                    <th>状況</th>
-                                    <th>登校</th>
-                                    <th>帰宅</th>
-                                    <th>休憩</th>
-                                    <th>在校時間</th>
-                                </tr>
-                            </thead>
-                            <tbody id="history-table-body">
-                                <!-- JS injects rows -->
-                            </tbody>
-                        </table>
-                    </div>
+                <div id="weekly-list-container" class="weekly-list">
+                    <!-- JS injects weekly cards here -->
                 </div>
+            </div>
 
-            </section>
-
-            <!-- View: TODO List -->
-            <!-- View: TODO List -->
-            <section id="view-todo" class="content-view">
-                <div class="todo-wrapper">
-                    <h2 class="view-title">ToDoリスト</h2>
-
-                    <!-- Input Area -->
-                    <div class="todo-input-card">
-                        <div class="input-row">
-                            <input type="text" id="todo-input" placeholder="新しいタスクを入力..." class="input-text" />
-                        </div>
-                        <div class="input-row controls">
-                            <div class="control-group">
-                                <label>期限:</label>
-                                <input type="date" id="todo-date" class="input-date" />
-                            </div>
-                            <div class="control-group">
-                                <label>優先度:</label>
-                                <select id="todo-priority" class="input-select">
-                                    <option value="low">低</option>
-                                    <option value="medium" selected>中</option>
-                                    <option value="high">高</option>
-                                </select>
-                            </div>
-                            <button id="btn-add-todo" class="btn-primary">
-                                <span class="material-symbols-rounded">add</span> 追加
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Sections -->
-                    <!-- Sections -->
-                    <!-- Expired (Outside Grid for Emphasis) -->
-                    <div class="todo-status-alert" id="todo-section-expired" style="display: none;">
-                        <h3 class="section-title"><span class="material-symbols-rounded icon-alert">warning</span>
-                            期限切れ・未完了</h3>
-                        <ul id="todo-list-expired" class="todo-list"></ul>
-                    </div>
-
-                    <div class="todo-sections-grid">
-                        <!-- Today -->
-                        <div class="todo-section">
-                            <h3 class="section-title">本日のタスク</h3>
-                            <ul id="todo-list-today" class="todo-list">
-                                <!-- JS injected -->
-                            </ul>
-                        </div>
-
-                        <!-- High Priority -->
-                        <div class="todo-section">
-                            <h3 class="section-title">優先度：高</h3>
-                            <ul id="todo-list-high" class="todo-list">
-                                <!-- JS injected -->
-                            </ul>
-                        </div>
-
-                        <!-- Medium Priority -->
-                        <div class="todo-section">
-                            <h3 class="section-title">優先度：中</h3>
-                            <ul id="todo-list-medium" class="todo-list">
-                                <!-- JS injected -->
-                            </ul>
-                        </div>
-
-                        <!-- Low Priority -->
-                        <div class="todo-section">
-                            <h3 class="section-title">優先度：低</h3>
-                            <ul id="todo-list-low" class="todo-list">
-                                <!-- JS injected -->
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Calendar -->
-                    <div class="calendar-section">
-                        <h3 class="section-title">カレンダー (期限管理)</h3>
-                        <div class="calendar-header">
-                            <button id="cal-prev" class="cal-nav-btn">&lt;</button>
-                            <span id="cal-current-month">2023年 12月</span>
-                            <button id="cal-next" class="cal-nav-btn">&gt;</button>
-                        </div>
-                        <div id="todo-calendar" class="todo-calendar">
-                            <!-- JS injected grid -->
-                        </div>
-                    </div>
+            <!-- Subview: Daily Detail (Table) -->
+            <div id="history-detail-view" style="display: none;">
+                <div class="detail-header">
+                    <button id="btn-back-history" class="btn-text-icon">← 一覧に戻る</button>
+                    <h3 id="detail-week-label">YYYY年MM月DD日の週</h3>
                 </div>
-            </section>
+                <div class="table-wrapper">
+                    <table class="attendance-table">
+                        <thead>
+                            <tr>
+                                <th>日付</th>
+                                <th>状況</th>
+                                <th>登校</th>
+                                <th>帰宅</th>
+                                <th>休憩</th>
+                                <th>在校時間</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <!-- JS injects rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <!-- View: Timer (Pomodoro) -->
-            <section id="view-timer" class="content-view timer-view-mode">
-                <div class="timer-container" id="timer-container">
-                    <div class="timer-circle-wrapper">
-                        <svg class="timer-svg" width="300" height="300" viewBox="0 0 300 300">
-                            <!-- Background Circle -->
-                            <circle class="timer-circle-bg" cx="150" cy="150" r="140"></circle>
-                            <!-- Progress Circle -->
-                            <circle class="timer-circle-progress" id="timer-circle-progress" cx="150" cy="150" r="140"
-                                fill="none"></circle>
-                        </svg>
-                        <div class="timer-text-overlay">
-                            <div class="timer-status-label" id="timer-status-label">STUDY TIME</div>
-                            <div class="timer-display">
-                                <span id="timer-count">25:00</span>
-                            </div>
-                        </div>
+        </section>
+
+        <!-- View: TODO List -->
+        <!-- View: TODO List -->
+        <section id="view-todo" class="content-view">
+            <div class="todo-wrapper">
+                <h2 class="view-title">ToDoリスト</h2>
+
+                <!-- Input Area -->
+                <div class="todo-input-card">
+                    <div class="input-row">
+                        <input type="text" id="todo-input" placeholder="新しいタスクを入力..." class="input-text" />
                     </div>
-
-                    <div class="timer-controls">
-                        <button id="btn-timer-toggle" class="circle-btn btn-white-glass">
-                            <span class="btn-text" id="btn-timer-toggle-text">START</span>
+                    <div class="input-row controls">
+                        <div class="control-group">
+                            <label>期限:</label>
+                            <input type="date" id="todo-date" class="input-date" />
+                        </div>
+                        <div class="control-group">
+                            <label>優先度:</label>
+                            <select id="todo-priority" class="input-select">
+                                <option value="low">低</option>
+                                <option value="medium" selected>中</option>
+                                <option value="high">高</option>
+                            </select>
+                        </div>
+                        <button id="btn-add-todo" class="btn-primary">
+                            <span class="material-symbols-rounded">add</span> 追加
                         </button>
                     </div>
+                </div>
 
-                    <div class="timer-settings">
-                        <div class="setting-group">
-                            <div class="setting-item">
-                                <label>勉強時間</label>
-                                <div class="stepper">
-                                    <button class="stepper-btn" id="work-minus">-</button>
-                                    <span class="stepper-val" id="work-val">25</span>
-                                    <button class="stepper-btn" id="work-plus">+</button>
-                                </div>
-                            </div>
-                            <div class="setting-item">
-                                <label>休憩時間</label>
-                                <div class="stepper">
-                                    <button class="stepper-btn" id="break-minus">-</button>
-                                    <span class="stepper-val" id="break-val">5</span>
-                                    <button class="stepper-btn" id="break-plus">+</button>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Sections -->
+                <!-- Sections -->
+                <!-- Expired (Outside Grid for Emphasis) -->
+                <div class="todo-status-alert" id="todo-section-expired" style="display: none;">
+                    <h3 class="section-title"><span class="material-symbols-rounded icon-alert">warning</span>
+                        期限切れ・未完了</h3>
+                    <ul id="todo-list-expired" class="todo-list"></ul>
+                </div>
 
-                        <div class="setting-toggle">
-                            <label for="auto-switch-check">AUTO</label>
-                            <label class="switch">
-                                <input type="checkbox" id="auto-switch-check">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
+                <div class="todo-sections-grid">
+                    <!-- Today -->
+                    <div class="todo-section">
+                        <h3 class="section-title">本日のタスク</h3>
+                        <ul id="todo-list-today" class="todo-list">
+                            <!-- JS injected -->
+                        </ul>
+                    </div>
 
-                        <div class="manual-switch">
-                            <button id="btn-skip-timer" class="btn-text-white">スキップ (次のモードへ)</button>
+                    <!-- High Priority -->
+                    <div class="todo-section">
+                        <h3 class="section-title">優先度：高</h3>
+                        <ul id="todo-list-high" class="todo-list">
+                            <!-- JS injected -->
+                        </ul>
+                    </div>
+
+                    <!-- Medium Priority -->
+                    <div class="todo-section">
+                        <h3 class="section-title">優先度：中</h3>
+                        <ul id="todo-list-medium" class="todo-list">
+                            <!-- JS injected -->
+                        </ul>
+                    </div>
+
+                    <!-- Low Priority -->
+                    <div class="todo-section">
+                        <h3 class="section-title">優先度：低</h3>
+                        <ul id="todo-list-low" class="todo-list">
+                            <!-- JS injected -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Calendar -->
+                <div class="calendar-section">
+                    <h3 class="section-title">カレンダー (期限管理)</h3>
+                    <div class="calendar-header">
+                        <button id="cal-prev" class="cal-nav-btn">&lt;</button>
+                        <span id="cal-current-month">2023年 12月</span>
+                        <button id="cal-next" class="cal-nav-btn">&gt;</button>
+                    </div>
+                    <div id="todo-calendar" class="todo-calendar">
+                        <!-- JS injected grid -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Timer (Pomodoro) -->
+        <section id="view-timer" class="content-view timer-view-mode">
+            <div class="timer-container" id="timer-container">
+                <div class="timer-circle-wrapper">
+                    <svg class="timer-svg" width="300" height="300" viewBox="0 0 300 300">
+                        <!-- Background Circle -->
+                        <circle class="timer-circle-bg" cx="150" cy="150" r="140"></circle>
+                        <!-- Progress Circle -->
+                        <circle class="timer-circle-progress" id="timer-circle-progress" cx="150" cy="150" r="140"
+                            fill="none"></circle>
+                    </svg>
+                    <div class="timer-text-overlay">
+                        <div class="timer-status-label" id="timer-status-label">STUDY TIME</div>
+                        <div class="timer-display">
+                            <span id="timer-count">25:00</span>
                         </div>
                     </div>
                 </div>
-            </section>
-        </main>
+
+                <div class="timer-controls">
+                    <button id="btn-timer-toggle" class="circle-btn btn-white-glass">
+                        <span class="btn-text" id="btn-timer-toggle-text">START</span>
+                    </button>
+                </div>
+
+                <div class="timer-settings">
+                    <div class="setting-group">
+                        <div class="setting-item">
+                            <label>勉強時間</label>
+                            <div class="stepper">
+                                <button class="stepper-btn" id="work-minus">-</button>
+                                <span class="stepper-val" id="work-val">25</span>
+                                <button class="stepper-btn" id="work-plus">+</button>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>休憩時間</label>
+                            <div class="stepper">
+                                <button class="stepper-btn" id="break-minus">-</button>
+                                <span class="stepper-val" id="break-val">5</span>
+                                <button class="stepper-btn" id="break-plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-toggle">
+                        <label for="auto-switch-check">AUTO</label>
+                        <label class="switch">
+                            <input type="checkbox" id="auto-switch-check">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="manual-switch">
+                        <button id="btn-skip-timer" class="btn-text-white">スキップ (次のモードへ)</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
     </div>
     <!-- Context Menu -->
     <div id="todo-context-menu" class="context-menu">
@@ -327,7 +321,7 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
-</body>
+    <script type="module" src="app.js"></script>
+    </body>
 
 </html>
